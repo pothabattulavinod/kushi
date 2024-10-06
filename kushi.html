@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+		<!-- JW Player script -->
+		<script src="https://ssl.p.jwpcdn.com/player/v/8.22.0/jwplayer.js"></script>
+		<!-- JW Player license key -->
+		<script>
+			jwplayer.key = 'EN7MpaKagehNwodFmcDG3/k/QCMXIo8qyzO5Fi+Bxq0=';
+		</script>
+
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+			}
+
+			#player {
+				width: 100% !important;
+				height: 100% !important;
+			}
+
+			.jwplayer .jw-progress {
+				background-color: #ff6347;
+				/* Changed to tomato color */
+			}
+
+			button:hover {
+				background: #FF0000 !important;
+			}
+
+			.jw-icon-forward {
+				background: url('https://www.kindpng.com/picc/b/79-797059_forward-icon-png.png') no-repeat center center;
+				background-size: 100%;
+			}
+
+			/* Hide the reset option in the right-click menu */
+			.jw-rightclick .jw-reset {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div id="player"></div>
+
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", function() {
+				var playerInstance = jwplayer("player");
+				var lastTime = 0; // Variable to store playback time
+
+				// Define multiple URLs for the same video
+				var videoUrls = [{
+						file: "https://directlink.public-l.workers.dev/dl/6702570d4c2b0b1b79678523?&.mp4",
+						label: "URL 1"
+					},
+					{
+						file: "https://filestream.elcoders.workers.dev//dl/105127?code=f18962301eeca1dea9140f1f&?.mp4",
+						label: "URL 2"
+					},
+					{
+						file: "https://linksshortner.xyz/AgADUw308614?&.mp4",
+						label: "URL 3"
+					},
+					{
+						file: "https://www.tgxlink.workers.dev/dl/6702531984a85aa63ef7b978?&.mp4",
+						label: "URL 4"
+					},
+					{
+						file: "https://www.tg-x-server2.workers.dev/v2/AgADUw102428?&.mp4",
+						label: "URL 5"
+					},
+					{
+						file: "https://tg-movies4u.tgmkvofcl.workers.dev/639400?hash=AgADUw&?.mp4",
+						label: "URL 6"
+					},
+					{
+						file: "https://cloudy-hilliary-iodevs-eaaf7b2d.koyeb.app/dl/6702531860b0b52bea3821e5?&.mp4",
+						label: "URL 7"
+					},
+					{
+						file: "https://go.springsfern.in/dl/873689?&.mp4",
+						label: "URL 8"
+					},
+					{
+						file: "https://file-streamx-697cdb6409cc.herokuapp.com/222950?hash=AgADUw&m=1?hash=undefined?&.mp4",
+						label: "URL 9"
+					}
+				];
+
+				// Function to get a random URL from the list
+				function getRandomUrl() {
+					const randomIndex = Math.floor(Math.random() * videoUrls.length);
+					return videoUrls[randomIndex].file;
+				}
+
+				// Set up JW Player with a random URL, disabling autoplay and preload
+				playerInstance.setup({
+					aspectratio: "16:9",
+					primary: 'html5',
+					sources: [{
+						file: getRandomUrl()
+					}],
+					image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaQ32Exfuf9yIgmSLJJsgBf1gB3iZfmByB3Q&usqp=CAU", // Updated poster image
+					tracks: [{
+						file: "https://raw.githubusercontent.com/pothabattulavinod/Ss/refs/heads/main/Kushi%20(2023).vtt", // Added Kushi (2023) captions
+						label: "English",
+						kind: "captions",
+						default: true
+					}],
+					captions: {
+						backgroundOpacity: 0,
+						edgeStyle: "raised"
+					},
+					width: '100%',
+					height: '100%',
+					controls: true,
+					displayPlaybackLabel: true,
+					autoplay: false, // Disabled autoplay
+					preload: 'none', // Disabled preload
+					advertising: {
+						client: "vast",
+						schedule: [{
+							offset: "pre",
+							tag: ""
+						}]
+					}
+				});
+
+				// Handle player errors and try to load another random URL
+				playerInstance.on('error', function() {
+					console.log("Error occurred, trying a different random URL.");
+					playerInstance.load([{
+						file: getRandomUrl()
+					}]);
+					playerInstance.play();
+				});
+
+				// Save playback position when the video is paused
+				playerInstance.on('pause', function() {
+					lastTime = playerInstance.getPosition(); // Save current position
+				});
+
+				// Seek to saved time when the player is ready
+				playerInstance.on('ready', function() {
+					if (lastTime > 0) {
+						playerInstance.seek(lastTime); // Seek to the last saved time
+					}
+
+					playerInstance.addButton(
+						'https://www.kindpng.com/picc/b/79-797059_forward-icon-png.png',
+						'Forward 10 seconds',
+						function() {
+							playerInstance.seek(playerInstance.getPosition() + 10);
+						},
+						'forward10'
+					);
+				});
+
+				// Reset the last playback position when the video is complete
+				playerInstance.on('complete', function() {
+					lastTime = 0; // Reset saved time
+				});
+			});
+		</script>
+	</body>
+
+</html>
